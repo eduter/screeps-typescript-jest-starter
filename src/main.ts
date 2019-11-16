@@ -1,3 +1,5 @@
+import 'ts-polyfill/lib/es2019-array';
+
 import roleBuilder, { Builder } from "roles/builder";
 import roleHarvester from "roles/harvester";
 import roleUpgrader, { Upgrader } from "roles/upgrader";

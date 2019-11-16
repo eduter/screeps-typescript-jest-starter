@@ -52,6 +52,7 @@
     "typescript": "^2.9.2"
   },
   "dependencies": {
-    "source-map": "~0.6.1"
+    "source-map": "~0.6.1",
+    "ts-polyfill": "^3.5.3"
   }
 }
