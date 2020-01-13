@@ -1,8 +1,8 @@
-import { mockInstanceOf } from "screeps-jest";
+import { mockInstanceOf, mockStructure } from "screeps-jest";
 import roleUpgrader, { Upgrader } from "./upgrader";
 
 
-const controller = mockInstanceOf<StructureController>({ id: "controller1" as Id<StructureController> });
+const controller = mockStructure(STRUCTURE_CONTROLLER);
 const source1 = mockInstanceOf<Source>({ id: "source1" as Id<Source> });
 const source2 = mockInstanceOf<Source>({ id: "source2" as Id<Source> });
 const room = mockInstanceOf<Room>({

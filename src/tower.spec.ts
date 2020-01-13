@@ -7,11 +7,11 @@ describe("tower module", () => {
 
     it("should attack the nearest hostile creep, if there is one in the room", () => {
       const hostileCreep = mockInstanceOf<Creep>();
-      const tower = mockInstanceOf<StructureTower>({
+      const tower = mockStructure(STRUCTURE_TOWER, {
         attack: () => OK,
-        pos: mockInstanceOf<RoomPosition>({
-          findClosestByRange: (type: any) => type === FIND_HOSTILE_CREEPS ? hostileCreep : null
-        })
+        pos: {
+          findClosestByRange: (type: FindConstant) => type === FIND_HOSTILE_CREEPS ? hostileCreep : null
+        }
       });
       runTower(tower);
       expect(tower.attack).toHaveBeenCalledWith(hostileCreep);
@@ -19,10 +19,10 @@ describe("tower module", () => {
 
     it("should repair the nearest damaged structure, if there is one in the room", () => {
       const damagedStructure = mockStructure(STRUCTURE_EXTENSION);
-      const tower = mockInstanceOf<StructureTower>({
-        pos: mockInstanceOf<RoomPosition>({
-          findClosestByRange: (type: any) => type === FIND_STRUCTURES ? damagedStructure : null
-        }),
+      const tower = mockStructure(STRUCTURE_TOWER, {
+        pos: {
+          findClosestByRange: (type: FindConstant) => type === FIND_STRUCTURES ? damagedStructure : null
+        },
         repair: () => OK
       });
       runTower(tower);
@@ -31,7 +31,7 @@ describe("tower module", () => {
     });
 
     it("should not do anything, otherwise", () => {
-      const tower = mockInstanceOf<StructureTower>({
+      const tower = mockStructure(STRUCTURE_TOWER, {
         attack: () => OK,
         heal: () => OK,
         pos: {
@@ -50,7 +50,7 @@ describe("tower module", () => {
   describe("isDamaged", () => {
 
     it("should return false if the structure has full health", () => {
-      const structure = mockInstanceOf<StructureSpawn>({
+      const structure = mockStructure(STRUCTURE_SPAWN, {
         hits: 5000,
         hitsMax: 5000
       });
@@ -58,7 +58,7 @@ describe("tower module", () => {
     });
 
     it("should return true if the structure doesn't have full health", () => {
-      const structure = mockInstanceOf<StructureSpawn>({
+      const structure = mockStructure(STRUCTURE_SPAWN, {
         hits: 3000,
         hitsMax: 5000
       });
