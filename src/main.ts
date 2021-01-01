@@ -4,6 +4,13 @@ import roleUpgrader, { Upgrader } from 'roles/upgrader';
 import ErrorMapper from 'utils/ErrorMapper';
 import { runTower } from './tower';
 
+declare global {
+
+  interface CreepMemory {
+    role: string;
+  }
+
+}
 
 function unwrappedLoop() {
   console.log(`Current game tick is ${Game.time}`);

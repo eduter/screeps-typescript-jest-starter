@@ -74,9 +74,9 @@ export default class ErrorMapper {
         if (e instanceof Error) {
           if ('sim' in Game.rooms) {
             const message = 'Source maps don\'t work in the simulator - displaying original error';
-            console.log(`<span style='color:red'>${message}<br>${_.escape(e.stack)}</span>`);
+            console.log(`<span style='color:red'>${message}<br>${_.escape(e.stack ?? '')}</span>`);
           } else {
-            console.log(`<span style='color:red'>${_.escape(this.sourceMappedStackTrace(e))}</span>`);
+            console.log(`<span style='color:red'>${escape(this.sourceMappedStackTrace(e))}</span>`);
           }
         } else {
           // can't handle it
@@ -86,4 +86,50 @@ export default class ErrorMapper {
     };
   }
 
+}
+
+/** Used to map characters to HTML entities. */
+const htmlEscapes: {[key: string]: string} = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;'
+};
+
+/** Used to match HTML entities and HTML characters. */
+const reUnescapedHtml = /[&<>"']/g;
+const reHasUnescapedHtml = RegExp(reUnescapedHtml.source);
+
+/**
+ * Converts the characters "&", "<", ">", '"', and "'" in `string` to their
+ * corresponding HTML entities.
+ *
+ * **Note:** No other characters are escaped. To escape additional
+ * characters use a third-party library like [_he_](https://mths.be/he).
+ *
+ * Though the ">" character is escaped for symmetry, characters like
+ * ">" and "/" don't need escaping in HTML and have no special meaning
+ * unless they're part of a tag or unquoted attribute value. See
+ * [Mathias Bynens's article](https://mathiasbynens.be/notes/ambiguous-ampersands)
+ * (under "semi-related fun fact") for more details.
+ *
+ * When working with HTML you should always
+ * [quote attribute values](http://wonko.com/post/html-escaping) to reduce
+ * XSS vectors.
+ *
+ * @since 0.1.0
+ * @category String
+ * @param {string} [text=''] The string to escape.
+ * @returns {string} Returns the escaped string.
+ * @see escapeRegExp, unescape
+ * @example
+ *
+ * escape('fred, barney, & pebbles')
+ * // => 'fred, barney, &amp; pebbles'
+ */
+function escape(text: string): string {
+  return (text && reHasUnescapedHtml.test(text))
+    ? text.replace(reUnescapedHtml, (chr: string) => htmlEscapes[chr])
+    : (text || '');
 }
