@@ -5,7 +5,7 @@ describe('tower module', () => {
 
   describe('runTower', () => {
 
-    it('should attack the nearest hostile creep, if there is one in the room', () => {
+    it('attacks the nearest hostile creep, if there is one in the room', () => {
       const hostileCreep = mockInstanceOf<Creep>();
       const tower = mockStructure(STRUCTURE_TOWER, {
         attack: () => OK,
@@ -15,7 +15,7 @@ describe('tower module', () => {
       expect(tower.attack).toHaveBeenCalledWith(hostileCreep);
     });
 
-    it('should repair the nearest damaged structure, if there is one in the room', () => {
+    it('repairs the nearest damaged structure, if there is one in the room', () => {
       const damagedStructure = mockStructure(STRUCTURE_EXTENSION);
       const tower = mockStructure(STRUCTURE_TOWER, {
         pos: { findClosestByRange: (type: FindConstant) => (type === FIND_STRUCTURES ? damagedStructure : null) },
@@ -26,7 +26,7 @@ describe('tower module', () => {
       expect(tower.repair).toHaveBeenCalledWith(damagedStructure);
     });
 
-    it('should not do anything, otherwise', () => {
+    it('idles, otherwise', () => {
       const tower = mockStructure(STRUCTURE_TOWER, {
         attack: () => OK,
         heal: () => OK,
@@ -43,7 +43,7 @@ describe('tower module', () => {
 
   describe('isDamaged', () => {
 
-    it('should return false if the structure has full health', () => {
+    it('returns false if the structure has full health', () => {
       const structure = mockStructure(STRUCTURE_SPAWN, {
         hits: 5000,
         hitsMax: 5000
@@ -51,7 +51,7 @@ describe('tower module', () => {
       expect(isDamaged(structure)).toBeFalsy();
     });
 
-    it("should return true if the structure doesn't have full health", () => {
+    it("returns true if the structure doesn't have full health", () => {
       const structure = mockStructure(STRUCTURE_SPAWN, {
         hits: 3000,
         hitsMax: 5000

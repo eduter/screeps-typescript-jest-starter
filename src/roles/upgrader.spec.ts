@@ -11,7 +11,7 @@ const room = mockInstanceOf<Room>({
 
 describe('Upgrader role', () => {
 
-  it('should upgrade the controller, when it has energy and is within range', () => {
+  it('upgrades the controller, when it has energy and is within range', () => {
     const creep = mockInstanceOf<Upgrader>({
       memory: {
         role: 'upgrader',
@@ -27,7 +27,7 @@ describe('Upgrader role', () => {
     expect(creep.upgradeController).toHaveBeenCalledWith(controller);
   });
 
-  it('should move towards controller, when it has energy but is out of range', () => {
+  it('moves towards controller, when it has energy but is out of range', () => {
     const creep = mockInstanceOf<Upgrader>({
       memory: {
         role: 'upgrader',
@@ -45,7 +45,7 @@ describe('Upgrader role', () => {
     expect(creep.moveTo).toHaveBeenCalledWith(controller, expect.anything());
   });
 
-  it("should harvest, when it's near a source and not full", () => {
+  it("harvests, when it's near a source and not full", () => {
     const creep = mockInstanceOf<Upgrader>({
       harvest: () => OK,
       memory: {
@@ -61,7 +61,7 @@ describe('Upgrader role', () => {
     expect(creep.harvest).toHaveBeenCalledWith(source1);
   });
 
-  it("should move to a source, when it's not full and not near a source", () => {
+  it("moves to a source, when it's not full and not near a source", () => {
     const creep = mockInstanceOf<Upgrader>({
       harvest: () => ERR_NOT_IN_RANGE,
       memory: {
@@ -77,7 +77,7 @@ describe('Upgrader role', () => {
     expect(creep.moveTo).toHaveBeenCalledWith(source1, expect.anything());
   });
 
-  it('should switch to upgrading when it gets full', () => {
+  it('switches to upgrading when it gets full', () => {
     const creep = mockInstanceOf<Upgrader>({
       memory: {
         role: 'upgrader',
@@ -92,7 +92,7 @@ describe('Upgrader role', () => {
     expect(creep.memory.upgrading).toBeTruthy();
   });
 
-  it('should switch to harvesting when it gets empty', () => {
+  it('switches to harvesting when it gets empty', () => {
     const creep = mockInstanceOf<Upgrader>({
       harvest: () => OK,
       memory: {

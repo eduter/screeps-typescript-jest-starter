@@ -31,7 +31,7 @@ const noOnesRoom = mockInstanceOf<Room>({ controller: undefined });
 
 describe('main loop', () => {
 
-  it('should run every creep', () => {
+  it('runs every creep', () => {
     mockGlobal<Game>('Game', {
       creeps: {
         builder,
@@ -48,7 +48,7 @@ describe('main loop', () => {
     expect(roleUpgrader.run).toHaveBeenCalledWith(upgrader);
   });
 
-  it('should clean up the memory from deceased creeps', () => {
+  it('cleans up the memory from deceased creeps', () => {
     mockGlobal<Game>('Game', {
       creeps: { stillKicking: harvester },
       rooms: {},
@@ -65,7 +65,7 @@ describe('main loop', () => {
     expect(Memory.creeps).toEqual({ stillKicking: harvester.memory });
   });
 
-  it('should run every tower in my rooms', () => {
+  it('runs every tower in my rooms', () => {
     mockGlobal<Game>('Game', {
       creeps: {},
       rooms: {
