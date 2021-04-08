@@ -25,6 +25,22 @@ describe('Builder role', () => {
     expect(creep.build).toHaveBeenCalledWith(cs1);
   });
 
+  it('idles, when it has energy and there are no construction sites', () => {
+    const creep = mockInstanceOf<Builder>({
+      store: { energy: 50 },
+      memory: {
+        building: true,
+        role: 'builder'
+      },
+      room: { find: () => [] },
+      build: () => OK
+    });
+
+    roleBuilder.run(creep);
+    expect(creep.room.find).toHaveBeenCalledWith(FIND_CONSTRUCTION_SITES);
+    expect(creep.build).not.toHaveBeenCalled();
+  });
+
   it('moves towards construction site, when it has energy but is out of range', () => {
     const creep = mockInstanceOf<Builder>({
       store: { energy: 50 },

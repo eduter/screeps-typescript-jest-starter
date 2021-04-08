@@ -23,6 +23,22 @@ describe('Upgrader role', () => {
     expect(creep.upgradeController).toHaveBeenCalledWith(controller);
   });
 
+  it('idles, when it has energy, but is in a room without a controller', () => {
+    const creep = mockInstanceOf<Upgrader>({
+      store: { energy: 50 },
+      memory: {
+        role: 'upgrader',
+        upgrading: true
+      },
+      room: { controller: undefined },
+      upgradeController: () => OK
+    });
+
+    roleUpgrader.run(creep);
+    expect(creep.memory.upgrading).toBeTruthy();
+    expect(creep.upgradeController).not.toHaveBeenCalled();
+  });
+
   it('moves towards controller, when it has energy but is out of range', () => {
     const creep = mockInstanceOf<Upgrader>({
       store: { energy: 50 },

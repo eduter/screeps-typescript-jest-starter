@@ -57,6 +57,20 @@ describe('Harvester role', () => {
       expect(creep.moveTo).toHaveBeenCalledWith(extension, expect.anything());
     });
 
+    it("idles, when it's full and there are no structures in need of refilling", () => {
+      const creep = mockInstanceOf<Creep>({
+        store: { getFreeCapacity: () => 0 },
+        room: { find: () => [] }, // no structures to fill
+        moveTo: () => OK,
+        transfer: () => OK
+      });
+
+      roleHarvester.run(creep);
+      expect(creep.room.find).toHaveBeenCalledWith(FIND_MY_STRUCTURES, { filter: isToBeFilled });
+      expect(creep.moveTo).not.toHaveBeenCalled();
+      expect(creep.transfer).not.toHaveBeenCalled();
+    });
+
   });
 
   describe('isToBeFilled', () => {
