@@ -7,26 +7,28 @@ const roleHarvester = {
         creep.moveTo(sources[0], { visualizePathStyle: { stroke: '#ffaa00' } });
       }
     } else {
-      const targets = creep.room.find(FIND_STRUCTURES, { filter: s => this.isToBeFilled(s) });
+      const targets = creep.room.find(FIND_MY_STRUCTURES, { filter: isToBeFilled });
+
       if (targets.length > 0) {
         if (creep.transfer(targets[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
           creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffffff' } });
         }
       }
     }
-  },
-
-  isToBeFilled(structure: Structure): boolean {
-    if (structure.structureType === STRUCTURE_EXTENSION
-      || structure.structureType === STRUCTURE_SPAWN
-      || structure.structureType === STRUCTURE_TOWER
-    ) {
-      const s = structure as StructureExtension | StructureSpawn | StructureTower;
-      return s.energy < s.energyCapacity;
-    }
-    return false;
   }
 
 };
 
+function isToBeFilled(structure: Structure): boolean {
+  if (structure.structureType === STRUCTURE_EXTENSION
+    || structure.structureType === STRUCTURE_SPAWN
+    || structure.structureType === STRUCTURE_TOWER
+  ) {
+    const s = structure as StructureExtension | StructureSpawn | StructureTower;
+    return s.energy < s.energyCapacity;
+  }
+  return false;
+}
+
 export default roleHarvester;
+export { isToBeFilled };
