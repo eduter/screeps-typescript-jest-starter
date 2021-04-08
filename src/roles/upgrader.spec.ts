@@ -1,7 +1,6 @@
 import { mockInstanceOf, mockStructure } from 'screeps-jest';
 import roleUpgrader, { Upgrader } from './upgrader';
 
-
 const controller = mockStructure(STRUCTURE_CONTROLLER);
 const source1 = mockInstanceOf<Source>({ id: 'source1' as Id<Source> });
 const source2 = mockInstanceOf<Source>({ id: 'source2' as Id<Source> });
@@ -9,7 +8,6 @@ const room = mockInstanceOf<Room>({
   controller,
   find: (type: FindConstant) => (type === FIND_SOURCES ? [source1, source2] : [])
 });
-
 
 describe('Upgrader role', () => {
 
